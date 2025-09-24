@@ -1,35 +1,75 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import { NoticiaPage } from './pages/ProductsPage';
+import { CreateProductPage } from './pages/CreateProductPage';
+import type { Noticia } from './types/noticia';
+import './App.css';
+
+// Constantes para definir as páginas possíveis
+const PAGE_TYPES = {
+  PRODUCTS: 'products',
+  CREATE: 'create'
+} as const;
+
+type PageType = typeof PAGE_TYPES[keyof typeof PAGE_TYPES];
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currentPage, setCurrentPage] = useState<PageType>(PAGE_TYPES.PRODUCTS);
+  const [products, setProducts] = useState<Noticia[]>([
+    {
+      id: '1',
+      name: 'Smartphone Galaxy Pro',
+      description: 'Smartphone com tela de 6.7 polegadas, câmera de 108MP e 256GB de armazenamento. Ideal para uso profissional e pessoal.',
+      price: 2599.99
+    },
+    {
+      id: '2',
+      name: 'Notebook Gamer Ultra',
+      description: 'Notebook gamer com processador Intel i7, 16GB RAM, SSD 1TB e placa de vídeo RTX 4060. Perfeito para jogos e trabalho.',
+      price: 4999.90
+    },
+    {
+      id: '3',
+      name: 'Fone Bluetooth Premium',
+      description: 'Fone de ouvido sem fio com cancelamento de ruído ativo, 30 horas de bateria e qualidade de som Hi-Fi.',
+      price: 599.50
+    }
+  ]);
+
+  const handleNavigateToCreate = () => {
+    setCurrentPage(PAGE_TYPES.CREATE);
+  };
+
+  const handleNavigateToProducts = () => {
+    setCurrentPage(PAGE_TYPES.PRODUCTS);
+  };
+
+  const handleAddProduct = (newProduct: Noticia) => {
+    setProducts(prevProducts => [...prevProducts, newProduct]);
+    setCurrentPage(PAGE_TYPES.PRODUCTS); // Voltar para listagem após criar
+  };
+
+  const handleDetalheNoticia = (id: string) => {
+    setProducts(prevProducts => prevProducts.filter(product => product.id !== id));
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="app">
+      {currentPage === PAGE_TYPES.PRODUCTS && (
+        <NoticiaPage
+          noticias={products}
+          onNavigateToCreate={handleNavigateToCreate}
+          onDetalheNoticia={handleDetalheNoticia}
+        />
+      )}
+      
+      {currentPage === PAGE_TYPES.CREATE && (
+        <CreateProductPage
+          onAddProduct={handleAddProduct}
+          onCancel={handleNavigateToProducts}
+        />
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;
