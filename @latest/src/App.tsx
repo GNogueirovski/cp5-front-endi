@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { NoticiaPage } from './pages/ProductsPage';
 import ImagemNoticia from './assets/jornal.png'
 
-import { CreateProductPage } from './pages/CreateProductPage';
 import './App.css';
 import type { Noticia } from './types/News';
 
@@ -100,15 +99,6 @@ function App() {
     setCurrentPage(PAGE_TYPES.CREATE);
   };
 
-  const handleNavigateToProducts = () => {
-    setCurrentPage(PAGE_TYPES.PRODUCTS);
-  };
-
-  const handleAddProduct = (newProduct: Noticia) => {
-    setProducts(prevProducts => [...prevProducts, newProduct]);
-    setCurrentPage(PAGE_TYPES.PRODUCTS); // Voltar para listagem após criar
-  };
-
   const handleDetalheNoticia = (id: string) => {
     setProducts(prevProducts => prevProducts.filter(product => product.id !== id));
   };
@@ -120,13 +110,6 @@ function App() {
           noticias={products}
           onNavigateToCreate={handleNavigateToCreate}
           onDetalheNoticia={handleDetalheNoticia}
-        />
-      )}
-      
-      {currentPage === PAGE_TYPES.CREATE && (
-        <CreateProductPage
-          onAddProduct={handleAddProduct}
-          onCancel={handleNavigateToProducts}
         />
       )}
     </div>
