@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type { Noticia } from '../types/noticia';
+import type { Noticia } from '../types/News';
 import { NoticiaCard } from '../components/NoticiaCard/NoticiaCard';
 
 interface NoticiaPageProps {
