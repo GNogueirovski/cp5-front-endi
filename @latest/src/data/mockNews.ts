@@ -261,7 +261,7 @@ export const noticiasMockadas: Noticia[] = [
         texto: 'Lorem ipsum dolor sit amet, consectetur adipiscing,Lorem ipsum dolor sit amet'
         },
     ]
-  },
+  }
 
 ]
 
