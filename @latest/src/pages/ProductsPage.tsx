@@ -2,6 +2,7 @@ import React from 'react';
 
 import type { Noticia } from '../types/News';
 import { NoticiaCard } from '../components/NoticiaCard/NoticiaCard';
+import Footer from '../components/Footer/Footer';
 
 interface NoticiaPageProps {
   noticias: Noticia[];
@@ -43,6 +44,7 @@ export const NoticiaPage: React.FC<NoticiaPageProps> = ({
           </div>
         )}
       </main>
+      <Footer></Footer>
     </div>
   );
 };
